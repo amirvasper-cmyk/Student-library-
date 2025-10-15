@@ -1,0 +1,150 @@
+<!DOCTYPE html><html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Library</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f8fc;
+      color: #222;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0066cc;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    main {
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    .upload-box {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .file-list {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .file-item {
+      border-bottom: 1px solid #eee;
+      padding: 0.5rem 0;
+    }
+    .file-item:last-child { border-bottom: none; }
+    input[type="file"], input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-bottom: 0.5rem;
+    }
+    button {
+      background-color: #0066cc;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #004c99;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    #adminPanel {
+      display: none;
+      margin-top: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>📘 Student Library</header>
+  <main>
+    <div class="upload-box">
+      <h3>Fayl yuklash</h3>
+      <input type="file" id="fileInput" accept=".pdf, image/*">
+      <button onclick="uploadFile()">Yuklash</button>
+    </div><div class="search-box">
+  <input type="text" id="searchInput" placeholder="Fayl nomini yozing..." onkeyup="searchFiles()">
+</div>
+
+<div class="file-list" id="fileList">
+  <h3>Yuklangan fayllar</h3>
+  <div id="filesContainer"></div>
+</div>
+
+<div style="margin-top:1rem; text-align:center;">
+  <button onclick="loginAdmin()">Admin panel</button>
+</div>
+
+<div id="adminPanel">
+  <h3>🛠 Admin panel</h3>
+  <p>Buyurtmalar ro‘yxati (demo versiya)</p>
+  <ul>
+    <li>Aliyev Jamshid – 3 ta PDF</li>
+    <li>Karimova Dilnoza – 2 ta rasm</li>
+  </ul>
+</div>
+
+  </main>
+  <footer>© 2025 Texnologiyalar va Iqtisodiy tizimlar klubi</footer>  <script>
+    const files = [];
+
+    function uploadFile() {
+      const fileInput = document.getElementById('fileInput');
+      if (!fileInput.files.length) {
+        alert('Iltimos, fayl tanlang.');
+        return;
+      }
+      const file = fileInput.files[0];
+      files.push(file);
+      displayFiles(files);
+      fileInput.value = '';
+    }
+
+    function displayFiles(fileArray) {
+      const container = document.getElementById('filesContainer');
+      container.innerHTML = '';
+      fileArray.forEach(f => {
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = `<strong>${f.name}</strong> <button onclick="alert('Bosmaxonaga buyurtma berildi!')">Buyurtma berish</button>`;
+        container.appendChild(div);
+      });
+    }
+
+    function searchFiles() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = files.filter(f => f.name.toLowerCase().includes(query));
+      displayFiles(filtered);
+    }
+
+    function loginAdmin() {
+      const pass = prompt('Admin parolini kiriting:');
+      if (pass === 'AMIRXON111') {
+        document.getElementById('adminPanel').style.display = 'block';
+      } else {
+        alert('Noto‘g‘ri parol!');
+      }
+    }
+  </script></body>
+</html>
